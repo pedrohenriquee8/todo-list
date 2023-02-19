@@ -2,14 +2,14 @@ import APIResponse from "../types/http/APIResponse";
 import Model from "./model";
 
 class Task extends Model {
-    private _id: string;
+    private _id?: string;
     private _description: string;
     private _done: boolean;
     private _publishedAt: number;
 
     constructor() {
         super();
-        this._id = this._description = "";
+        this._description = "";
         this._done = false;
         this._publishedAt = Date.now();
     }
@@ -25,7 +25,6 @@ class Task extends Model {
 
     override toJSON(): APIResponse {
         const dto = {} as APIResponse;
-        dto["id"] = this._id;
         dto["description"] = this._description;
         dto["done"] = this._done;
         dto["publishedAt"] = this._publishedAt;
