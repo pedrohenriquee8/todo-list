@@ -6,6 +6,10 @@ abstract class Model {
     static fromJSON(_: Record<string, unknown>): Model {
         throw new Error("You need to implement the fromJSON method");
     }
+
+    static fromForm(_: Record<string, unknown>): Model {
+        throw new Error("You need to implement the fromJSON method");
+    }
 }
 
 export default Model;

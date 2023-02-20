@@ -1,0 +1,28 @@
+.taskContainer {
+  display: flex;
+  align-items: flex-start;
+  padding: 1rem;
+  background: var(--gray-500);
+  border: 1px solid var(--gray-400);
+  margin-top: 1.5rem;
+  border-radius: 8px;
+  gap: 0.75rem;
+}
+
+.taskContainer button {
+  border: 0;
+  background: transparent;
+}
+
+.descriptionTaskDone {
+  color: var(--gray-100);
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.descriptionTaskNotDone {
+  color: var(--gray-300);
+  font-size: 0.875rem;
+  line-height: 1.4;
+  text-decoration: line-through;
+}
