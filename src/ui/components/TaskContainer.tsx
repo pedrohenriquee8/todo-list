@@ -1,5 +1,7 @@
 import { useContext, useState } from "react";
-import { Trash } from "phosphor-react";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
+import { Clock, Pencil, Trash } from "phosphor-react";
 
 import Task from "../../core/domain/models/Task";
 import { TaskCTX } from "../contexts/TaskCTX";
@@ -18,8 +20,15 @@ interface TaskProps {
 }
 
 export function TaskContainer({ id, description, done, publishedAt }: TaskProps) {
-    const { updateTask } = useContext(TaskCTX);
+    const { updateTask, deleteTask } = useContext(TaskCTX);
+
     const [checkStatus, setCheckStatus] = useState<boolean>(done);
+
+    const formatCreatedTaskDate = format(
+        publishedAt,
+        "d'/'LL HH:mm",
+        { locale: ptBR }
+    )
 
     function taskCompletedOrNotCompleted() {
         const statusTaskCompleted = !checkStatus;
@@ -35,6 +44,14 @@ export function TaskContainer({ id, description, done, publishedAt }: TaskProps)
         updateTask(id, Task.fromJSON(updatedTask));
     }
 
+    function handleEditTask() {
+
+    }
+
+    function handleDeleteTask() {
+        deleteTask(id);
+    }
+
     return (
         <article className={styles.taskContainer}>
             <button onClick={taskCompletedOrNotCompleted}>
@@ -43,8 +60,25 @@ export function TaskContainer({ id, description, done, publishedAt }: TaskProps)
                     <img src={checkOff} alt="Check off" />
                 }
             </button>
+
             <span className={!checkStatus ? styles.descriptionTaskDone : styles.descriptionTaskNotDone}>{description}</span>
-            <Trash />
+
+            <div className={styles.infoTask}>
+                <div className={styles.buttonsEditTask}>
+                    {!done ? <button onClick={handleEditTask}>
+                        <Pencil size={18} />
+                    </button> : []}
+
+                    <button onClick={handleDeleteTask}>
+                        <Trash size={18} />
+                    </button>
+                </div>
+
+                <div className={styles.infoPublishedTask}>
+                    <Clock size={14} />
+                    <span>{formatCreatedTaskDate}</span>
+                </div>
+            </div>
         </article>
     );
 }

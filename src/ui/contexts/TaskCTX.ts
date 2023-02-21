@@ -3,6 +3,7 @@ import Task from "../../core/domain/models/Task";
 
 interface Props {
     data?: Array<Task>;
+    tasksDone: number;
     fetchTasks(): Promise<void>;
     createTask(task: Task): Promise<boolean>;
     updateTask(taskId: number, task: Task): Promise<boolean>;

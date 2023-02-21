@@ -1,6 +1,7 @@
-import { FormEvent, useContext, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, InvalidEvent, useContext, useEffect, useState } from "react";
 import { PlusCircle } from "phosphor-react";
 
+import Task from "../../core/domain/models/Task";
 import { Header } from "../components/Header";
 import { TaskCTX } from "../contexts/TaskCTX";
 import { TaskContainer } from "../components/TaskContainer";
@@ -10,15 +11,35 @@ import clipboardIcon from "../assets/clipboard.svg";
 import styles from "./MyTasks.module.css";
 
 export function MyTasks() {
-    const { data, fetchTasks } = useContext(TaskCTX);
-    const [tasksDone, setTasksDone] = useState<number>(0);
+    const { data, tasksDone, fetchTasks, createTask } = useContext(TaskCTX);
+    const [descriptionTask, setDescriptionTask] = useState<string>("");
 
     useEffect(() => {
         fetchTasks();
     }, []);
 
-    function handleCreateNewTask(event: FormEvent) {
+    function handleChangeTask(event: ChangeEvent<HTMLInputElement>) {
+        setDescriptionTask(event.target.value);
+    }
+
+    async function handleCreateNewTask(event: FormEvent) {
         event.preventDefault();
+
+        const taskCreatedNow = {
+            description: descriptionTask,
+            done: false,
+            publishedAt: Date.now(),
+        }
+
+        const task = Task.fromForm(taskCreatedNow);
+        const result = await createTask(task);
+
+        if (result) {
+            alert("Tarefa criada com sucesso!");
+            setDescriptionTask("");
+        } else {
+            alert("Ocorreu um erro na criação!");
+        }
     }
 
     return (
@@ -27,26 +48,37 @@ export function MyTasks() {
 
             <div onSubmit={handleCreateNewTask} className={styles.wrapper}>
                 <form className={styles.formAddTask}>
-                    <input type="text" placeholder="Adicione uma nova tarefa" />
-                    <button>Criar <PlusCircle size={16} /></button>
+                    <input
+                        type="text"
+                        name="description"
+                        placeholder="Adicione uma nova tarefa"
+                        value={descriptionTask}
+                        onChange={handleChangeTask}
+                        required
+                    />
+                    <button>
+                        Criar
+                        <PlusCircle size={16} />
+                    </button>
                 </form>
 
                 <div className={styles.tasksInfo}>
                     <div className={styles.tasksCreatedAndCompleted}>
                         <div className={styles.tasksCreated}>
                             <p>Tarefas Criadas</p>
-                            <span>0</span>
+                            <span>{data?.length}</span>
                         </div>
                         <div className={styles.tasksCompleted}>
                             <p>Concluídas</p>
-                            {data! ? <span>{tasksDone} de {data.length}</span> : <span>0</span>}
+                            {data! ? <span>{tasksDone} de {data?.length}</span> : <span>0</span>}
                         </div>
                     </div>
 
-                    {data! ? <div className={styles.haveTask}>
+                    {data?.length ? <div className={styles.haveTask}>
                         {data.map(task => {
                             return (
                                 <TaskContainer
+                                    key={task.id!}
                                     id={task.id!}
                                     description={task.description}
                                     done={task.done}
