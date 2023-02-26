@@ -69,7 +69,7 @@ export function TaskContainer({ id, description, done, publishedAt }: TaskProps)
     }
 
     function errorMessageWhenTaskDeleted() {
-        toast.error('Tarefa deletada com sucesso', {
+        toast.error('Erro ao deletar a tarefa', {
             position: "top-right",
             autoClose: 3500,
             closeOnClick: true,

@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export const BackendClient = axios.create({
-    baseURL: "http://localhost:3000",
+    baseURL: "https://todo-list-json.onrender.com",
 })
