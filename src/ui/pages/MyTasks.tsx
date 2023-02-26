@@ -1,5 +1,8 @@
-import { ChangeEvent, FormEvent, InvalidEvent, useContext, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
 import { PlusCircle } from "phosphor-react";
+
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 import Task from "../../core/domain/models/Task";
 import { Header } from "../components/Header";
@@ -18,6 +21,26 @@ export function MyTasks() {
         fetchTasks();
     }, []);
 
+    function successMessageWhenTaskCreated() {
+        toast.success('Tarefa criada com sucesso', {
+            position: "top-right",
+            autoClose: 3500,
+            closeOnClick: true,
+            pauseOnHover: false,
+            theme: "dark",
+        });
+    }
+
+    function errorMessageWhenTaskCreated() {
+        toast.error('Não foi possível criar a tarefa', {
+            position: "top-right",
+            autoClose: 3500,
+            closeOnClick: true,
+            pauseOnHover: false,
+            theme: "dark",
+        });
+    }
+
     function handleChangeTask(event: ChangeEvent<HTMLInputElement>) {
         setDescriptionTask(event.target.value);
     }
@@ -35,10 +58,10 @@ export function MyTasks() {
         const result = await createTask(task);
 
         if (result) {
-            alert("Tarefa criada com sucesso!");
             setDescriptionTask("");
+            successMessageWhenTaskCreated();
         } else {
-            alert("Ocorreu um erro na criação!");
+            errorMessageWhenTaskCreated();
         }
     }
 
@@ -46,17 +69,18 @@ export function MyTasks() {
         <div>
             <Header />
 
-            <div onSubmit={handleCreateNewTask} className={styles.wrapper}>
-                <form className={styles.formAddTask}>
+            <div className={styles.wrapper}>
+                <form onSubmit={handleCreateNewTask} className={styles.formAddTask}>
                     <input
                         type="text"
                         name="description"
                         placeholder="Adicione uma nova tarefa"
+                        autoComplete="off"
                         value={descriptionTask}
                         onChange={handleChangeTask}
                         required
                     />
-                    <button>
+                    <button type="submit">
                         Criar
                         <PlusCircle size={16} />
                     </button>
@@ -66,19 +90,19 @@ export function MyTasks() {
                     <div className={styles.tasksCreatedAndCompleted}>
                         <div className={styles.tasksCreated}>
                             <p>Tarefas Criadas</p>
-                            <span>{data?.length}</span>
+                            <span>{data.length}</span>
                         </div>
                         <div className={styles.tasksCompleted}>
                             <p>Concluídas</p>
-                            {data! ? <span>{tasksDone} de {data?.length}</span> : <span>0</span>}
+                            {data ? <span>{tasksDone} de {data.length}</span> : <span>0</span>}
                         </div>
                     </div>
 
-                    {data?.length ? <div className={styles.haveTask}>
+                    {data.length ? <div className={styles.haveTask}>
                         {data.map(task => {
                             return (
                                 <TaskContainer
-                                    key={task.id!}
+                                    key={task.id}
                                     id={task.id!}
                                     description={task.description}
                                     done={task.done}
@@ -95,6 +119,8 @@ export function MyTasks() {
                     </div>}
                 </div>
             </div>
+
+            <ToastContainer />
         </div>
     );
 }

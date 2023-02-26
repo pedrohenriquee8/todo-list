@@ -2,7 +2,7 @@ import { createContext } from "react";
 import Task from "../../core/domain/models/Task";
 
 interface Props {
-    data?: Array<Task>;
+    data: Array<Task>;
     tasksDone: number;
     fetchTasks(): Promise<void>;
     createTask(task: Task): Promise<boolean>;

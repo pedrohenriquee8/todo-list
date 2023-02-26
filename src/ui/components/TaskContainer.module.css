@@ -70,3 +70,58 @@
   font-size: 0.7rem;
   line-height: 1.4;
 }
+
+.overlayDialog {
+  position: fixed;
+  background: var(--gray-700);
+  opacity: 0.6;
+  inset: 0;
+}
+
+.contentDialog {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  width: 30rem;
+  background: var(--gray-400);
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  border: 1px solid var(--gray-700);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 5px 6px -4px rgb(0 0 0 / 0.5);
+}
+
+.contentDialog textarea {
+  width: 100%;
+  height: 6rem;
+  background: var(--gray-600);
+  border: 0;
+  resize: none;
+  padding: 1rem;
+  border-radius: 8px;
+  color: var(--gray-100);
+  line-height: 1.4;
+  margin-top: 1rem;
+  margin-bottom: 0.75rem;
+  overflow: hidden;
+}
+
+.contentDialog form button {
+  padding: 1rem;
+  border: 0;
+  border-radius: 8px;
+  transition: background-color 0.1s;
+  margin-bottom: 0.75rem;
+}
+
+.contentDialog form button:hover {
+  background: var(--gray-200);
+}
+
+@media (max-width: 768px) {
+  .contentDialog {
+    width: 75%;
+  }
+}

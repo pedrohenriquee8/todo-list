@@ -12,7 +12,7 @@ class TaskAPI extends TaskAdapter {
         await BackendClient.post("/tasks", task.toJSON());
     }
     async update(taskId: number, task: Task): Promise<void> {
-        await BackendClient.put(`/tasks/${taskId}`, task.toJSON());
+        await BackendClient.patch(`/tasks/${taskId}`, task.toJSON());
     }
     async delete(taskId: number): Promise<void> {
         await BackendClient.delete(`/tasks/${taskId}`);
