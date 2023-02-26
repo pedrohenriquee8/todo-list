@@ -10,6 +10,12 @@ Welcome to the ToDo List. In this project, you can find a to-do list built on Re
 [![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)](https://reactjs.org/)
 [![Vite](https://img.shields.io/badge/vite-%ffcc24.svg?style=for-the-badge&logo=vite&logoColor=6b9bff)](https://vitejs.dev/)
 
+## Deploy
+
+The project is deployed on Vercel. You can access by clicking the button below:
+
+[![Vercel](https://img.shields.io/badge/vercel-%2320232a.svg?style=for-the-badge&logo=vercel&logoColor=%2361DAFB)](https://todo-list-rho-seven.vercel.app)
+
 ## How to run
 
 First, clone the repository:
